@@ -2,7 +2,7 @@
 import SubmitButton from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signUp } from "./actions";
+import { signUp } from "@/actions/auth";
 import React, { useActionState } from "react";
 
 const SignUpForm = () => {
