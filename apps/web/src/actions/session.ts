@@ -51,7 +51,6 @@ export async function getSession() {
 
 export async function deleteSession() {
 	(await cookies()).delete("session");
-	redirect("/");
 }
 
 export async function updateTokens({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) {

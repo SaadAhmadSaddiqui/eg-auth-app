@@ -23,7 +23,7 @@ export default async function DashboardPage() {
 				} as React.CSSProperties
 			}
 		>
-			<AppSidebar variant="inset" />
+			<AppSidebar variant="inset" user={session.user} />
 			<SidebarInset>
 				<SiteHeader />
 				<div className="flex flex-1 flex-col">

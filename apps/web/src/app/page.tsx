@@ -1,18 +1,34 @@
 /* eslint-disable @next/next/no-img-element */
+import { deleteSession, getSession } from "@/actions/session";
 import { EGLogo } from "@/components/svgs/eg-logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+	const session = await getSession();
+
 	return (
 		<div className="min-h-screen flex flex-col">
 			{/* Header */}
 			<header className="border-b border-gray-200">
 				<div className="container mx-auto px-4 py-4 flex justify-between items-center">
 					<EGLogo />
-					<Button asChild variant="outline">
-						<Link href="/auth/signin">Login</Link>
-					</Button>
+					{!session || !session.user ? (
+						<Button asChild variant="outline">
+							<Link href="/auth/signin">Login</Link>
+						</Button>
+					) : (
+						<div className="flex gap-2">
+							<Button asChild variant="outline">
+								<Link href="/dashboard">Dashboard</Link>
+							</Button>
+							<form action={deleteSession}>
+								<Button type="submit" variant="outline" className="cursor-pointer">
+									Sign out
+								</Button>
+							</form>
+						</div>
+					)}
 				</div>
 			</header>
 
@@ -26,7 +42,9 @@ export default function Home() {
 							showcases our authentication system.
 						</p>
 						<div className="pt-4">
-							<Button size="lg">Get Started</Button>
+							<Button asChild size="lg">
+								<Link href={session ? "/dashboard" : "/auth/signup"}>Get Started</Link>
+							</Button>
 						</div>
 					</div>
 					<div className="md:w-1/2">

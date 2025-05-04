@@ -22,7 +22,7 @@ export class UsersService {
 			const user = await createdUser.save();
 
 			if (!user) {
-				throw new Error("User not created");
+				throw new Error("User was not created");
 			}
 
 			return plainToInstance(UserResponseDto, user);
@@ -36,6 +36,7 @@ export class UsersService {
 	}
 
 	async findOne(id: string): Promise<UserDocument> {
+		console.log("[Find One][breh]");
 		const user = await this.userModel.findOne({ _id: id }).exec();
 
 		if (!user) {

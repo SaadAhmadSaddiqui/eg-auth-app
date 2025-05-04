@@ -20,7 +20,7 @@ export class AuthService {
 		return this.usersService.create(createUserDto);
 	}
 
-	async signin(id: number, name?: string) {
+	async signin(id: string, name?: string) {
 		const { accessToken } = await this.generateTokens(id);
 
 		return { id, name, accessToken };
@@ -39,11 +39,19 @@ export class AuthService {
 		return { id: user.id, name: user.name };
 	}
 
-	async generateTokens(id: number) {
+	async generateTokens(id: string) {
 		const payload: AuthJwtPayload = { sub: id };
 
 		const [accessToken] = await Promise.all([this.jwtService.signAsync(payload)]);
 
 		return { accessToken };
+	}
+
+	async validateJwtUser(id: string) {
+		const user = await this.usersService.findOne(id);
+
+		console.log({ user });
+
+		return { id: user.id };
 	}
 }

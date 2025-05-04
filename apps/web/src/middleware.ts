@@ -11,4 +11,6 @@ export default async function middleware(req: NextRequest) {
 	} else if (req.nextUrl.pathname.startsWith("/auth")) {
 		return NextResponse.redirect(new URL("/dashboard", req.url));
 	}
+
+	NextResponse.next();
 }
