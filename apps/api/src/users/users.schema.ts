@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { type WithTimestamps } from "mongoose";
+import { HydratedDocument, type WithTimestamps } from "mongoose";
 
-export type UserDocument = WithTimestamps<User>;
+export type UserDocument = WithTimestamps<HydratedDocument<User>>;
 
 @Schema({ collection: "users", timestamps: true })
 export class User {

@@ -29,7 +29,7 @@ export async function signUp(state: FormState, formData: FormData): Promise<Form
 		redirect("/auth/signin");
 	} else
 		return {
-			message: response.status === 409 ? "The user is already existed!" : response.statusText,
+			message: response.status === 409 ? "A user with this email already exists." : response.statusText,
 		};
 }
 
@@ -57,16 +57,17 @@ export async function signIn(state: FormState, formData: FormData): Promise<Form
 		const result = await response.json();
 		// TODO: Create The Session For Authenticated User.
 
-		await createSession({
-			user: {
-				id: result.id,
-				name: result.name,
-				role: result.role,
-			},
-			accessToken: result.accessToken,
-			refreshToken: result.refreshToken,
-		});
-		redirect("/");
+		// await createSession({
+		// 	user: {
+		// 		id: result.id,
+		// 		name: result.name,
+		// 		role: result.role,
+		// 	},
+		// 	accessToken: result.accessToken,
+		// 	refreshToken: result.refreshToken,
+		// });
+		// redirect("/");
+		console.log("Sign In Result: ", result);
 	} else {
 		return {
 			message: response.status === 401 ? "Invalid Credentials!" : response.statusText,
