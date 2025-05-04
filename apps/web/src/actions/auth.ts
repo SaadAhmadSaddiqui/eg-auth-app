@@ -55,19 +55,17 @@ export async function signIn(state: FormState, formData: FormData): Promise<Form
 
 	if (response.ok) {
 		const result = await response.json();
-		// TODO: Create The Session For Authenticated User.
 
-		// await createSession({
-		// 	user: {
-		// 		id: result.id,
-		// 		name: result.name,
-		// 		role: result.role,
-		// 	},
-		// 	accessToken: result.accessToken,
-		// 	refreshToken: result.refreshToken,
-		// });
-		// redirect("/");
-		console.log("Sign In Result: ", result);
+		await createSession({
+			user: {
+				id: result.id,
+				name: result.name,
+				role: result.role,
+			},
+			accessToken: result.accessToken,
+			refreshToken: result.refreshToken,
+		});
+		redirect("/");
 	} else {
 		return {
 			message: response.status === 401 ? "Invalid Credentials!" : response.statusText,
