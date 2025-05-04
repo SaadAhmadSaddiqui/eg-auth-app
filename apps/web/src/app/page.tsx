@@ -1,9 +1,43 @@
-import styles from "./page.module.css";
+/* eslint-disable @next/next/no-img-element */
+import { EGLogo } from "@/components/svgs/eg-logo";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
 	return (
-		<div className={styles.page}>
-			<h1 className="text-2xl font-bold">Welcome to the EG Auth App!</h1>
+		<div className="min-h-screen flex flex-col">
+			{/* Header */}
+			<header className="border-b border-gray-200">
+				<div className="container mx-auto px-4 py-4 flex justify-between items-center">
+					<EGLogo />
+					<Button asChild variant="outline">
+						<Link href="/auth/signin">Login</Link>
+					</Button>
+				</div>
+			</header>
+
+			{/* Main Content */}
+			<main className="flex-1">
+				<section className="container mx-auto px-4 py-16 md:py-24 flex flex-col md:flex-row items-center gap-8">
+					<div className="md:w-1/2 space-y-6">
+						<h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">Create engaging learning experiences</h1>
+						<p className="text-lg text-gray-600">
+							Easy Generator is an e-learning authoring tool that empowers you to create interactive courses without any technical knowledge. This demo
+							showcases our authentication system.
+						</p>
+						<div className="pt-4">
+							<Button size="lg">Get Started</Button>
+						</div>
+					</div>
+					<div className="md:w-1/2">
+						<img
+							src="https://www.easygenerator.com/wp-content/uploads/2024/07/D2C_Homepage.png"
+							alt="Easy Generator Learning Platform"
+							className="rounded-lg"
+						/>
+					</div>
+				</section>
+			</main>
 		</div>
 	);
 }

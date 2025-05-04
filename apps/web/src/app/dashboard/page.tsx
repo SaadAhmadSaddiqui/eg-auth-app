@@ -6,8 +6,14 @@ import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 import data from "./data.json";
+import { getSession } from "@/actions/session";
+import { redirect } from "next/navigation";
 
-export default function Page() {
+export default async function DashboardPage() {
+	const session = await getSession();
+
+	if (!session || !session.user) redirect("/auth/signin");
+
 	return (
 		<SidebarProvider
 			style={

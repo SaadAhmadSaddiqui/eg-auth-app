@@ -45,12 +45,13 @@ export async function getSession() {
 		return payload as Session;
 	} catch (err) {
 		console.error("Failed to verify the session", err);
-		redirect("/auth/sigin");
+		redirect("/auth/signin");
 	}
 }
 
 export async function deleteSession() {
 	(await cookies()).delete("session");
+	redirect("/");
 }
 
 export async function updateTokens({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) {

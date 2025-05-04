@@ -2,10 +2,15 @@ import { ConflictException, Injectable, UnauthorizedException } from "@nestjs/co
 import { verify } from "argon2";
 import { CreateUserDto } from "src/users/dto/create-user.dto";
 import { UsersService } from "src/users/users.service";
+import { AuthJwtPayload } from "./types/jwt-payload.type";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
-	constructor(private usersService: UsersService) {}
+	constructor(
+		private usersService: UsersService,
+		private jwtService: JwtService,
+	) {}
 
 	async signup(createUserDto: CreateUserDto) {
 		const user = await this.usersService.findByEmail(createUserDto.email);
@@ -15,12 +20,10 @@ export class AuthService {
 		return this.usersService.create(createUserDto);
 	}
 
-	async signin(createUserDto: CreateUserDto) {
-		const user = await this.usersService.findByEmail(createUserDto.email);
-		if (!user) {
-			throw new ConflictException(`User with email ${createUserDto.email} does not exist`);
-		}
-		return user;
+	async signin(id: number, name?: string) {
+		const { accessToken } = await this.generateTokens(id);
+
+		return { id, name, accessToken };
 	}
 
 	async validateLocalUser(email: string, password: string) {
@@ -34,5 +37,13 @@ export class AuthService {
 			throw new UnauthorizedException("Invalid credentials.");
 		}
 		return { id: user.id, name: user.name };
+	}
+
+	async generateTokens(id: number) {
+		const payload: AuthJwtPayload = { sub: id };
+
+		const [accessToken] = await Promise.all([this.jwtService.signAsync(payload)]);
+
+		return { accessToken };
 	}
 }

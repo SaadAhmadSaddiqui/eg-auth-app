@@ -65,7 +65,7 @@ export async function signIn(state: FormState, formData: FormData): Promise<Form
 			accessToken: result.accessToken,
 			refreshToken: result.refreshToken,
 		});
-		redirect("/");
+		redirect("/dashboard");
 	} else {
 		return {
 			message: response.status === 401 ? "Invalid Credentials!" : response.statusText,

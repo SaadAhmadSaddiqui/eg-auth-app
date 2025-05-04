@@ -12,7 +12,7 @@
 			"dependsOn": ["^build"],
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],
 			"outputs": ["dist/**"],
-			"env": ["PORT", "MONGO_DB_URI"]
+			"env": ["PORT", "MONGO_DB_URI", "JWT_SECRET", "JWT_EXPIRES_IN"]
 		},
 		"lint": {
 			"dependsOn": ["^lint"]

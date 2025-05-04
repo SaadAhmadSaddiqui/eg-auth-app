@@ -13,6 +13,9 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
+import { deleteSession } from "@/actions/session";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 export function NavUser({
 	user,
@@ -62,9 +65,11 @@ export function NavUser({
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
-							<DropdownMenuItem>
-								<IconUserCircle />
-								Account
+							<DropdownMenuItem asChild>
+								<Link href="/profile">
+									<IconUserCircle />
+									Account
+								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuItem>
 								<IconCreditCard />
@@ -76,9 +81,13 @@ export function NavUser({
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<IconLogout />
-							Log out
+						<DropdownMenuItem asChild>
+							<form action={deleteSession}>
+								<Button variant="ghost" size="sm" className="w-full justify-start !px-0 h-auto">
+									<IconLogout />
+									Sign out
+								</Button>
+							</form>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
