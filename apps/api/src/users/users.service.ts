@@ -62,4 +62,14 @@ export class UsersService {
 	async remove(id: string): Promise<void> {
 		await this.userModel.deleteOne({ _id: id });
 	}
+
+	async updateHashedRefreshToken(id: string, hashedRT: string | null) {
+		const user = await this.userModel.findByIdAndUpdate(id, { hashedRefreshToken: hashedRT }, { new: true }).exec();
+
+		if (!user) {
+			throw new NotFoundException(`User not found or could not be updated.`);
+		}
+
+		return user;
+	}
 }

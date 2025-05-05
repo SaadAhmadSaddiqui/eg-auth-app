@@ -1,5 +1,7 @@
-export enum Role {
-	ADMIN = "ADMIN",
-	EDITOR = "EDITOR",
-	USER = "USER",
-}
+export type User = {
+	id: string;
+	name: string;
+	email: string;
+	createdAt: string;
+	updatedAt: string;
+};

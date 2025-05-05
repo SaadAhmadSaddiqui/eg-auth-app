@@ -3,9 +3,9 @@ import React from "react";
 import { getProfile } from "@/actions/profile";
 
 const ProfilePage = async () => {
-	const profile = await getProfile();
+	const user = await getProfile();
 
-	return <div>{JSON.stringify(profile, null, 2)}</div>;
+	return <div>{JSON.stringify(user, null, 2)}</div>;
 };
 
 export default ProfilePage;

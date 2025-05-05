@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 
-import { deleteSession, getSession } from "@/actions/session";
+import { getSession } from "@/actions/session";
 import { EGLogo } from "@/components/svgs/eg-logo";
 import { Button } from "@/components/ui/button";
 
@@ -23,11 +23,9 @@ export default async function Home() {
 							<Button asChild variant="outline">
 								<Link href="/dashboard">Dashboard</Link>
 							</Button>
-							<form action={deleteSession}>
-								<Button type="submit" variant="outline" className="cursor-pointer">
-									Sign out
-								</Button>
-							</form>
+							<Button asChild variant="outline" className="cursor-pointer">
+								<Link href="/api/auth/signout">Sign out</Link>
+							</Button>
 						</div>
 					)}
 				</div>

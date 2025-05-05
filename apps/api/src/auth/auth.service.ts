@@ -1,5 +1,5 @@
 import { ConflictException, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
-import { verify } from "argon2";
+import { hash, verify } from "argon2";
 import { CreateUserDto } from "src/users/dto/create-user.dto";
 import { UsersService } from "src/users/users.service";
 import { AuthJwtPayload } from "./types/jwt-payload.type";
@@ -20,13 +20,29 @@ export class AuthService {
 		if (user) {
 			throw new ConflictException(`User with email ${createUserDto.email} already exists`);
 		}
-		return this.usersService.create(createUserDto);
+		const newUser = await this.usersService.create(createUserDto);
+
+		const { accessToken, refreshToken } = await this.generateTokens(newUser.id);
+
+		const hashedRT = await hash(refreshToken);
+
+		await this.usersService.updateHashedRefreshToken(newUser.id, hashedRT);
+
+		return { id: newUser.id, name: newUser.name, accessToken, refreshToken };
 	}
 
 	async signin(id: string, name?: string) {
 		const { accessToken, refreshToken } = await this.generateTokens(id);
 
+		const hashedRT = await hash(refreshToken);
+
+		await this.usersService.updateHashedRefreshToken(id, hashedRT);
+
 		return { id, name, accessToken, refreshToken };
+	}
+
+	async getCurrentUser(id: string) {
+		return await this.usersService.findOne(id);
 	}
 
 	async validateLocalUser(email: string, password: string) {
@@ -59,8 +75,12 @@ export class AuthService {
 		return { id: user.id };
 	}
 
-	async validateRefreshToken(id: string) {
+	async validateRefreshToken(id: string, refreshToken: string) {
 		const user = await this.usersService.findOne(id);
+
+		const refreshTokenMatch = await verify(user.hashedRefreshToken, refreshToken);
+
+		if (!refreshTokenMatch) throw new UnauthorizedException("Invalid refresh token");
 
 		return { id: user.id };
 	}
@@ -68,6 +88,13 @@ export class AuthService {
 	async refreshToken(id: string, name: string) {
 		const { accessToken, refreshToken } = await this.generateTokens(id);
 
+		const hashedRT = await hash(refreshToken);
+		await this.usersService.updateHashedRefreshToken(id, hashedRT);
+
 		return { id, name, accessToken, refreshToken };
+	}
+
+	async signout(id: string) {
+		await this.usersService.updateHashedRefreshToken(id, null);
 	}
 }

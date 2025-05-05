@@ -1,20 +1,12 @@
-import { Exclude, Expose, Transform } from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 import { IsDateString } from "class-validator";
-
-export interface IUser {
-	_id: string;
-	email: string;
-	name: string;
-	password: string;
-	createdAt: Date;
-	updatedAt: Date;
-}
+import { TUser } from "../users.schema";
 
 // Implementing IUser so that when a new field is added, we can see it in the IDE and make a decision on whether to add it to the DTO or not
-export class UserResponseDto implements IUser {
+@Exclude()
+export class UserResponseDto implements TUser {
 	@Expose()
-	@Transform(({ obj }) => obj._id)
-	_id: string;
+	id: string;
 
 	@Expose()
 	email: string;
@@ -32,4 +24,7 @@ export class UserResponseDto implements IUser {
 
 	@Exclude()
 	password: string;
+
+	@Exclude()
+	hashedRefreshToken: string;
 }

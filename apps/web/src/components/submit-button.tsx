@@ -1,9 +1,11 @@
 "use client";
 import React, { PropsWithChildren } from "react";
-import { Button } from "./ui/button";
+
 import { useFormStatus } from "react-dom";
 
-const SubmitButton = ({ children }: PropsWithChildren) => {
+import { Button } from "./ui/button";
+
+export const SubmitButton = ({ children }: PropsWithChildren) => {
 	const { pending } = useFormStatus();
 
 	return (
@@ -12,5 +14,3 @@ const SubmitButton = ({ children }: PropsWithChildren) => {
 		</Button>
 	);
 };
-
-export default SubmitButton;

@@ -5,6 +5,8 @@ import { LocalAuthGuard } from "./guards/local-auth/local-auth.guard";
 import { Request } from "express";
 import { JwtAuthGuard } from "./guards/jwt-auth/jwt-auth.guard";
 import { RefreshAuthGuard } from "./guards/refresh-auth/refresh-auth.guard";
+import { plainToInstance } from "class-transformer";
+import { UserResponseDto } from "src/users/dto/user-response.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -22,9 +24,10 @@ export class AuthController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Get("protected")
-	protected(@Req() req: Request) {
-		return { message: `This is a protected route. Should be able to call without a token. User id: ${(req as any).user.id}` };
+	@Get("me")
+	async protected(@Req() req: Request) {
+		const user = await this.authService.getCurrentUser((req.user as any)?.id);
+		return plainToInstance(UserResponseDto, user);
 	}
 
 	@UseGuards(RefreshAuthGuard)
@@ -32,5 +35,11 @@ export class AuthController {
 	refreshToken(@Req() req: Request) {
 		const user: { id: string; name: string } = req.user as any;
 		return this.authService.refreshToken(user.id, user.name);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post("signout")
+	signout(@Req() req: Request) {
+		return this.authService.signout((req.user as any).id);
 	}
 }

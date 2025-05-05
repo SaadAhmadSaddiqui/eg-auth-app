@@ -1,8 +1,9 @@
-import { deleteSession, getSession } from "@/actions/session";
+import Link from "next/link";
+
+import { getSession } from "@/actions/session";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import Link from "next/link";
 
 export async function SiteHeader() {
 	const session = await getSession();
@@ -15,11 +16,9 @@ export async function SiteHeader() {
 				<h1 className="text-base font-medium">Documents</h1>
 				<div className="ml-auto flex items-center gap-2">
 					{session && session.user ? (
-						<form action={deleteSession}>
-							<Button variant="ghost" size="sm" className="hidden sm:flex">
-								Sign out
-							</Button>
-						</form>
+						<Button asChild variant="ghost" size="sm" className="hidden sm:flex cursor-pointer">
+							<Link href="/api/auth/signout">Sign out</Link>
+						</Button>
 					) : null}
 					<Button variant="ghost" asChild size="sm" className="hidden sm:flex">
 						<Link href="https://github.com/SaadAhmadSaddiqui/eg-auth-app" rel="noopener noreferrer" target="_blank" className="dark:text-foreground">

@@ -3,6 +3,7 @@ import { AppModule } from "./app.module";
 import { ValidationPipe, VersioningType } from "@nestjs/common";
 import helmet from "helmet";
 import * as compression from "compression";
+import { useRequestLogging } from "./middleware/request.logging";
 
 const PORT = process.env.PORT || 5000;
 
@@ -17,6 +18,7 @@ async function bootstrap() {
 			whitelist: true,
 		}),
 	);
+	useRequestLogging(app);
 	app.enableVersioning({ type: VersioningType.URI });
 	app.use(helmet());
 	app.use(compression());

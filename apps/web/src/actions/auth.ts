@@ -28,7 +28,17 @@ export async function signUp(state: FormState, formData: FormData): Promise<Form
 		body: JSON.stringify(validationFields.data),
 	});
 	if (response.ok) {
-		redirect("/auth/signin");
+		const result = await response.json();
+
+		await createSession({
+			user: {
+				id: result.id,
+				name: result.name,
+			},
+			accessToken: result.accessToken,
+			refreshToken: result.refreshToken,
+		});
+		redirect("/dashboard");
 	} else
 		return {
 			message: response.status === 409 ? "A user with this email already exists." : response.statusText,
@@ -62,7 +72,6 @@ export async function signIn(state: FormState, formData: FormData): Promise<Form
 			user: {
 				id: result.id,
 				name: result.name,
-				role: result.role,
 			},
 			accessToken: result.accessToken,
 			refreshToken: result.refreshToken,
@@ -88,7 +97,7 @@ export const refreshToken = async (oldRefreshToken: string) => {
 		});
 
 		if (!response.ok) {
-			throw new Error("Failed to refresh token" + response.statusText);
+			throw new Error("Failed to refresh token: " + response.statusText);
 		}
 
 		const { accessToken, refreshToken } = await response.json();

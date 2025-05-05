@@ -4,13 +4,10 @@ import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { Role } from "@/types";
-
 export type Session = {
 	user: {
 		id: string;
 		name: string;
-		role: Role;
 	};
 	accessToken: string;
 	refreshToken: string;
@@ -24,7 +21,9 @@ export async function createSession(payload: Session) {
 
 	const session = await new SignJWT(payload).setProtectedHeader({ alg: "HS256" }).setIssuedAt().setExpirationTime("7d").sign(encodedKey);
 
-	(await cookies()).set("session", session, {
+	const cks = await cookies();
+
+	cks.set("session", session, {
 		httpOnly: true,
 		secure: true,
 		expires: expiredAt,
@@ -51,24 +50,28 @@ export async function getSession() {
 
 export async function deleteSession() {
 	(await cookies()).delete("session");
-	redirect("/");
 }
 
 export async function updateTokens({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) {
-	const cookie = (await cookies()).get("session")?.value;
-	if (!cookie) return null;
+	try {
+		const cks = await cookies();
+		const cookie = cks.get("session")?.value;
+		if (!cookie) return null;
 
-	const { payload } = await jwtVerify<Session>(cookie, encodedKey);
+		const { payload } = await jwtVerify<Session>(cookie, encodedKey);
 
-	if (!payload) throw new Error("Session not found");
+		if (!payload) throw new Error("Session not found");
 
-	const newPayload: Session = {
-		user: {
-			...payload.user,
-		},
-		accessToken,
-		refreshToken,
-	};
+		const newPayload: Session = {
+			user: {
+				...payload.user,
+			},
+			accessToken,
+			refreshToken,
+		};
 
-	await createSession(newPayload);
+		await createSession(newPayload);
+	} catch (e: any) {
+		console.error(e);
+	}
 }

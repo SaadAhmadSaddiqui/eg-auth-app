@@ -1,8 +1,8 @@
 "use client";
 
 import { IconCreditCard, IconDotsVertical, IconLogout, IconNotification, IconUserCircle } from "@tabler/icons-react";
+import Link from "next/link";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -13,17 +13,9 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
-import { deleteSession } from "@/actions/session";
-import { Button } from "./ui/button";
-import Link from "next/link";
+import { User } from "@/types";
 
-export function NavUser({
-	user,
-}: {
-	user: {
-		name: string;
-	};
-}) {
+export function NavUser({ user }: { user: User }) {
 	const { isMobile } = useSidebar();
 
 	return (
@@ -72,12 +64,10 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem asChild>
-							<form action={deleteSession}>
-								<Button variant="ghost" size="sm" className="w-full justify-start !px-0 h-auto">
-									<IconLogout />
-									Sign out
-								</Button>
-							</form>
+							<Link href="/api/auth/signout">
+								<IconLogout />
+								Sign out
+							</Link>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>

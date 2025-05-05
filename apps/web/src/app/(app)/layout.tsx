@@ -1,12 +1,13 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, Suspense } from "react";
 
-import { getSession } from "@/actions/session";
+import { getProfile } from "@/actions/profile";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const AppLayout = async ({ children }: PropsWithChildren) => {
-	const session = await getSession();
+	const profile = await getProfile();
 
 	return (
 		<SidebarProvider
@@ -17,10 +18,10 @@ const AppLayout = async ({ children }: PropsWithChildren) => {
 				} as React.CSSProperties
 			}
 		>
-			<AppSidebar variant="inset" user={session!.user} />
+			<AppSidebar variant="inset" user={profile} />
 			<SidebarInset>
 				<SiteHeader />
-				{children}
+				<Suspense fallback={<Skeleton className="w-full h-100" />}>{children}</Suspense>
 			</SidebarInset>
 		</SidebarProvider>
 	);
