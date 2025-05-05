@@ -1,5 +1,0 @@
-{
-	"extends": "@repo/typescript-config/api.json",
-	"include": ["src"],
-	"exclude": ["node_modules", "dist"]
-}
