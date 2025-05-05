@@ -93,6 +93,7 @@ export const refreshToken = async (oldRefreshToken: string) => {
 
 		const { accessToken, refreshToken } = await response.json();
 		// update session with new tokens
+		// using next api because we can't directly update tokens from a component unless used in a form action.
 		const updateRes = await fetch("http://localhost:3000/api/auth/update", {
 			method: "POST",
 			body: JSON.stringify({
@@ -100,6 +101,7 @@ export const refreshToken = async (oldRefreshToken: string) => {
 				refreshToken,
 			}),
 		});
+
 		if (!updateRes.ok) throw new Error("Failed to update the tokens");
 
 		return accessToken;

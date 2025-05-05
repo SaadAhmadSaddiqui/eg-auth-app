@@ -24,9 +24,9 @@ export class AuthService {
 	}
 
 	async signin(id: string, name?: string) {
-		const { accessToken } = await this.generateTokens(id);
+		const { accessToken, refreshToken } = await this.generateTokens(id);
 
-		return { id, name, accessToken };
+		return { id, name, accessToken, refreshToken };
 	}
 
 	async validateLocalUser(email: string, password: string) {
@@ -57,5 +57,17 @@ export class AuthService {
 		const user = await this.usersService.findOne(id);
 
 		return { id: user.id };
+	}
+
+	async validateRefreshToken(id: string) {
+		const user = await this.usersService.findOne(id);
+
+		return { id: user.id };
+	}
+
+	async refreshToken(id: string, name: string) {
+		const { accessToken, refreshToken } = await this.generateTokens(id);
+
+		return { id, name, accessToken, refreshToken };
 	}
 }
