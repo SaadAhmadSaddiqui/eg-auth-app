@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
+
 import { deleteSession, getSession } from "@/actions/session";
 import { EGLogo } from "@/components/svgs/eg-logo";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default async function Home() {
 	const session = await getSession();

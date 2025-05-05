@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+
 import {
 	IconCamera,
 	IconChartBar,
@@ -17,21 +18,22 @@ import {
 	IconSettings,
 	IconUsers,
 } from "@tabler/icons-react";
+import Link from "next/link";
 
+import { Session } from "@/actions/session";
 import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import Link from "next/link";
+
 import { EGLogo } from "./svgs/eg-logo";
-import { Session } from "@/actions/session";
 
 const data = {
 	navMain: [
 		{
 			title: "Dashboard",
-			url: "#",
+			url: "/dashboard",
 			icon: IconDashboard,
 		},
 		{
