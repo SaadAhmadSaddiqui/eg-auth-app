@@ -7,7 +7,7 @@ Go to each individual app, copy envs, install packages, and use `npm run dev` to
 1. `cd apps/api && cp .env.example .env && npm i && npm run dev`
 2. `cd apps/web && cp .env.example .env && npm i && npm run dev`
 
-Remember to add `MONGO_URI` in the apps/api ENV
+**Remember to add `MONGO_URI` in the apps/api/.env**
 
 ## With docker
 
@@ -16,3 +16,5 @@ Remember to add `MONGO_URI` in the apps/api ENV
 3. `docker compose build`
 4. `docker compose up`
 5. View logs with `docker compose logs [web|api] -f`
+
+**Remember to add `MONGO_URI` in the apps/api/.env.docker**
