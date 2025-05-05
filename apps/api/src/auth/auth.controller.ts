@@ -23,7 +23,6 @@ export class AuthController {
 	@UseGuards(JwtAuthGuard)
 	@Get("protected")
 	protected(@Req() req: Request) {
-		console.log("I was here");
 		return { message: `This is a protected route. Should be able to call without a token. User id: ${(req as any).user.id}` };
 	}
 }

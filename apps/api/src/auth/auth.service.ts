@@ -50,8 +50,6 @@ export class AuthService {
 	async validateJwtUser(id: string) {
 		const user = await this.usersService.findOne(id);
 
-		console.log({ user });
-
 		return { id: user.id };
 	}
 }

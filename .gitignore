@@ -1,5 +1,4 @@
 # Ignore top-level lock and node_modules (if mistakenly added here)
-package-lock.json
 node_modules/
 
 # Ignore API app (NestJS) build/output/deps

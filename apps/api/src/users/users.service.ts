@@ -36,7 +36,6 @@ export class UsersService {
 	}
 
 	async findOne(id: string): Promise<UserDocument> {
-		console.log("[Find One][breh]");
 		const user = await this.userModel.findOne({ _id: id }).exec();
 
 		if (!user) {

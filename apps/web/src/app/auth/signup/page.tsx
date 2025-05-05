@@ -1,5 +1,7 @@
-import Link from "next/link";
 import React from "react";
+
+import Link from "next/link";
+
 import SignUpForm from "./sign-up-form";
 
 const SignUpPage = () => {

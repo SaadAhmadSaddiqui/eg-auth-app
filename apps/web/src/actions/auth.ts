@@ -1,9 +1,11 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { BACKEND_URL } from "@/lib/constants";
-import { FormState, LoginFormSchema, SignupFormSchema } from "../app/auth/types";
+
 import { createSession } from "@/actions/session";
+import { BACKEND_URL } from "@/lib/constants";
+
+import { FormState, LoginFormSchema, SignupFormSchema } from "../app/auth/types";
 
 export async function signUp(state: FormState, formData: FormData): Promise<FormState> {
 	const validationFields = SignupFormSchema.safeParse({

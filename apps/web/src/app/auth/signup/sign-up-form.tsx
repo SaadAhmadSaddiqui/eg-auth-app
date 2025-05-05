@@ -1,9 +1,10 @@
 "use client";
+import React, { useActionState } from "react";
+
+import { signUp } from "@/actions/auth";
 import SubmitButton from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signUp } from "@/actions/auth";
-import React, { useActionState } from "react";
 
 const SignUpForm = () => {
 	const [state, action] = useActionState(signUp, undefined);

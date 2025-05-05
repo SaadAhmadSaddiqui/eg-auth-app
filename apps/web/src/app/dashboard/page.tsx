@@ -1,3 +1,6 @@
+import { redirect } from "next/navigation";
+
+import { getSession } from "@/actions/session";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { DataTable } from "@/components/data-table";
@@ -6,8 +9,6 @@ import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 import data from "./data.json";
-import { getSession } from "@/actions/session";
-import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
 	const session = await getSession();

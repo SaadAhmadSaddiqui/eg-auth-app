@@ -1,10 +1,10 @@
 "use server";
 
-import { Role } from "@/types";
 import { jwtVerify, SignJWT } from "jose";
-
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+import { Role } from "@/types";
 
 export type Session = {
 	user: {
